@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Layers | Artisanal Bakery & Custom Cake Design</title>
+    <style>
+        /* --- GLOBAL STYLES & VARIABLES --- */
+        :root {
+            --primary: #c88a58;
+            --primary-hover: #b07443;
+            --secondary: #fefae0;
+            --accent: #e76f51;
+            --dark: #1d1e2c;
+            --light-bg: #faf6f0;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.85);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            background-color: var(--glass);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            background: var(--secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            color: var(--dark);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .cart-icon:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .cart-count {
+            background-color: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            padding: 0.1rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+                        url('images/hero-bg.jpg') center/cover no-repeat;
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 2rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            opacity: 0.95;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(200, 138, 88, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--white);
+            margin-left: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--dark);
+        }
+
+        /* --- SECTION COMMONS --- */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-section {
+            padding: 80px 20px;
+            background-color: #fff9f6;
+            color: #333333;
+            text-align: center;
+            border-radius: 24px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-section .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            color: #4a2e2b;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif, sans-serif;
+        }
+
+        .about-lead {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #666666;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .about-card {
+            background: #ffffff;
+            padding: 35px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #f0e2dd;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-card h3 {
+            font-size: 1.4rem;
+            color: #d97736;
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #555555;
+        }
+
+        /* --- CATALOG & FILTERS --- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .search-box {
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            width: 300px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(200, 138, 88, 0.3);
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--white);
+            border: 1px solid #ddd;
+            color: var(--dark);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .cake-card {
+            background-color: var(--white);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cake-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cake-img-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cake-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .cake-card:hover .cake-img {
+            transform: scale(1.05);
+        }
+
+        .dietary-tags {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .tag {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .cake-details {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .cake-badge {
+            align-self: flex-start;
+            background: var(--secondary);
+            color: var(--primary-hover);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .cake-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cake-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .cake-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        /* --- CUSTOM BUILDER --- */
+        .builder-section {
+            background-color: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 3rem 2.5rem;
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group select:focus, .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .custom-summary {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px dashed var(--primary);
+        }
+
+        /* --- REVIEWS --- */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stars { 
+            color: #f1c40f; 
+            margin-bottom: 0.5rem; 
+        }
+
+        /* --- FAQ SECTION --- */
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.2rem;
+            display: none;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* --- MODAL & CART --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 520px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem; 
+            right: 1.5rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.8rem;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            background: #eee;
+            border: none;
+            width: 26px; 
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .checkout-step { display: none; }
+        .checkout-step.active { display: block; }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .add-btn {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 { margin-bottom: 1.2rem; color: var(--primary); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.6rem; }
+        .footer-col a { color: #ccc; text-decoration: none; transition: var(--transition); }
+        .footer-col a:hover { color: var(--white); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .builder-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .about-section { padding: 50px 15px; }
+            .about-section h2 { font-size: 2rem; }
+            .about-lead { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">🍰 Sweet Layers</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#custom">Custom Order</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="cart-icon" onclick="openCart()">
+                🛒 Cart <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Artisanal Cakes Crafted with Passion</h1>
+        <p>Handmade daily using organic local ingredients, Belgian chocolates, and fresh seasonal fruits.</p>
+        <div>
+            <a href="#menu" class="btn">Explore Menu</a>
+            <a href="#custom" class="btn btn-secondary">Design Custom Cake</a>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About Our Bakery</h2>
+            <p class="about-lead">Crafting artisanal cakes with passion, precision, and the finest local ingredients since 2015.</p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Fresh Ingredients</h3>
+                    <p>We source 100% organic berries, premium Belgian chocolate, and farm-fresh dairy every morning.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Baked Daily</h3>
+                    <p>Every cake is baked from scratch daily by our master pastry chefs to guarantee maximum quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <h2 class="section-title">Our Signature Collections</h2>
+        <p class="section-subtitle">Pick from our freshly baked daily classics or seasonal specials.</p>
+        
+        <div class="controls">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search cakes..." oninput="handleSearch()">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterCakes('all', event)">All</button>
+                <button class="filter-btn" onclick="filterCakes('chocolate', event)">Chocolate</button>
+                <button class="filter-btn" onclick="filterCakes('fruit', event)">Fruit</button>
+                <button class="filter-btn" onclick="filterCakes('signature', event)">Signature</button>
+                <button class="filter-btn" onclick="filterCakes('vegan', event)">Vegan</button>
+            </div>
+        </div>
+
+        <div class="catalog" id="cakeCatalog"></div>
+    </section>
+
+    <section id="custom">
+        <h2 class="section-title">Build Your Custom Cake</h2>
+        <p class="section-subtitle">Design a personalized cake for your special occasion in real-time.</p>
+        
+        <div class="builder-section">
+            <div class="builder-grid">
+                <form id="customForm" onchange="calculateCustomPrice()">
+                    <div class="form-group">
+                        <label for="cakeSize">Select Size & Servings</label>
+                        <select id="cakeSize">
+                            <option value="30">6" Single Layer (Serves 6-8) - $30</option>
+                            <option value="50" selected>8" Double Layer (Serves 12-15) - $50</option>
+                            <option value="80">10" Triple Layer (Serves 20-25) - $80</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cakeFlavor">Sponge Base</label>
+                        <select id="cakeFlavor">
+                            <option value="0">Classic Vanilla Bean</option>
+                            <option value="5">Belgian Dark Chocolate (+$5)</option>
+                            <option value="5">Red Velvet (+$5)</option>
+                            <option value="8">Matcha Green Tea (+$8)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cakeFilling">Filling Layers</label>
+                        <select id="cakeFilling">
+                            <option value="0">Vanilla Buttercream</option>
+                            <option value="4">Fresh Strawberry Compote (+$4)</option>
+                            <option value="6">Salted Caramel Ganache (+$6)</option>
+                            <option value="6">Espresso Cream (+$6)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customMessage">Custom Inscription / Pipe Text</label>
+                        <input type="text" id="customMessage" placeholder="e.g., Happy Birthday Sarah!">
+                    </div>
+                </form>
+
+                <div class="custom-summary">
+                    <div>
+                        <h3>Estimated Summary</h3>
+                        <p style="margin-top: 1rem; color: #555;" id="summaryDetails">8" Double Layer, Classic Vanilla Sponge, Vanilla Buttercream filling.</p>
+                    </div>
+                    <div>
+                        <h2 style="margin-bottom: 1rem; color: var(--primary);" id="customPrice">$50.00</h2>
+                        <button class="btn" style="width: 100%;" onclick="addCustomToCart()">Add Custom Order to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know about our ordering process.</p>
+        
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">How far in advance should I place custom orders? <span>+</span></div>
+                <div class="faq-answer">We recommend placing custom cake orders at least 48 to 72 hours in advance to guarantee availability and specific design requests.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Do you offer gluten-free or allergen-safe options? <span>+</span></div>
+                <div class="faq-answer">Yes! We offer specialized Gluten-Free and Nut-Free options. Look for the tags on our catalog menu. Note that all items are baked in a shared kitchen.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What is your delivery policy? <span>+</span></div>
+                <div class="faq-answer">We offer local courier delivery within a 15-mile radius for a flat $10 fee, or free store pickup during business hours.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart()">&times;</span>
+            
+            <div id="cartStepView" class="checkout-step active">
+                <h2 style="margin-bottom: 1.5rem;">Your Shopping Cart</h2>
+                <div id="cartItems"><p>Your cart is empty.</p></div>
+                <hr style="margin: 1.5rem 0;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; margin-bottom: 1.5rem;">
+                    <span>Total:</span>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+                <button class="btn" style="width: 100%;" onclick="goToCheckout()">Proceed to Checkout</button>
+            </div>
+
+            <div id="checkoutStepView" class="checkout-step">
+                <h2 style="margin-bottom: 1.5rem;">Order Details</h2>
+                <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address or Store Pickup</label>
+                        <input type="text" required placeholder="123 Bakery Lane or Store Pickup">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="color: var(--dark); border-color: #ccc; flex: 1;" onclick="backToCart()">Back</button>
+                        <button type="submit" class="btn" style="flex: 2;">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="color: var(--white);">🍰 Sweet Layers</a>
+                <p style="margin-top: 1rem; color: #aaa;">Artisanal handcrafted cakes for every milestone.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#custom">Custom Order</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hours & Contact</h4>
+                <ul>
+                    <li>Mon - Sat: 8:00 AM - 7:00 PM</li>
+                    <li>Sunday: 9:00 AM - 4:00 PM</li>
+                    <li>Email: hello@sweetlayersbakery.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Sweet Layers Bakery. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+<script>
+    // ==========================================
+    // 1. Cake Data Array
+    // ==========================================
+    const cakes = [
+        {
+            id: 1,
+            name: "Belgian Dark Chocolate",
+            category: "chocolate",
+            price: 42.00,
+            tags: ["Nut-Free"],
+            desc: "Rich 70% dark chocolate sponge layered with smooth chocolate ganache.",
+            image: "images/chocolate-cake.jpg"
+        },
+        {
+            id: 2,
+            name: "Fresh Strawberry Shortcake",
+            category: "fruit",
+            price: 38.00,
+            tags: ["GF-Option"],
+            desc: "Light vanilla sponge filled with organic fresh strawberries and cream.",
+            image: "images/fresh-strawberry-cake.jpg"
+        },
+        {
+            id: 3,
+            name: "Velvet Truffle Delight",
+            category: "signature",
+            price: 48.00,
+            tags: [],
+            desc: "Our award-winning signature cake coated in smooth cocoa dusting.",
+            image: "images/velvet-cake.jpg"
+        },
+        {
+            id: 4,
+            name: "Zesty Lemon Berry",
+            category: "fruit",
+            price: 36.00,
+            tags: ["Nut-Free"],
+            desc: "Tangy lemon curd layers complemented by mixed woodland berries.",
+            image: "images/zesty-lemon-berry.jpg"
+        },
+        {
+            id: 5,
+            name: "Plant-Based Berry Bliss",
+            category: "vegan",
+            price: 40.00,
+            tags: ["Vegan", "GF"],
+            desc: "100% vegan coconut sponge layered with fresh raspberry puree.",
+            image: "images/berry-blast.jpg"
+        },
+        {
+            id: 6,
+            name: "Salted Caramel Macchiato",
+            category: "signature",
+            price: 46.00,
+            tags: [],
+            desc: "Espresso-infused sponge cake finished with homemade salted caramel drizzle.",
+            image: "images/salted-caramel-cake.jpg"
+        }
+    ];
+
+    let cart = [];
+    let activeCategory = 'all';
+
+    // ==========================================
+    // 2. Main Render Function (Fixed Target ID)
+    // ==========================================
+    function renderCakes(items) {
+        const catalog = document.getElementById("cakeCatalog");
+        if (!catalog) return;
+
+        if (items.length === 0) {
+            catalog.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888;">No cakes found matching your search.</p>`;
+            return;
+        }
+
+        catalog.innerHTML = items.map(cake => `
+            <div class="cake-card reveal active">
+                <div class="cake-img-wrapper">
+                    <img src="${cake.image}" 
+                         alt="${cake.name}" 
+                         class="cake-img"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=Cake+Image';">
+                    <div class="dietary-tags">
+                        ${cake.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="cake-details">
+                    <span class="cake-badge">${cake.category}</span>
+                    <h3 class="cake-title">${cake.name}</h3>
+                    <p class="cake-desc">${cake.desc}</p>
+                    <div class="cake-bottom">
+                        <span class="price">$${cake.price.toFixed(2)}</span>
+                        <button class="btn add-btn" onclick="addToCart(${cake.id}, this)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ==========================================
+    // 3. Filtering & Searching
+    // ==========================================
+    function filterCakes(category, event) {
+        activeCategory = category;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        if (event) event.target.classList.add('active');
+        applyFilters();
+    }
+
+    function handleSearch() { 
+        applyFilters(); 
+    }
+
+    function applyFilters() {
+        const searchInput = document.getElementById('searchInput');
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        const filtered = cakes.filter(cake => {
+            const matchesCategory = activeCategory === 'all' || cake.category === activeCategory;
+            const matchesSearch = cake.name.toLowerCase().includes(searchTerm) || cake.desc.toLowerCase().includes(searchTerm);
+            return matchesCategory && matchesSearch;
+        });
+        renderCakes(filtered);
+    }
+
+    // ==========================================
+    // 4. Custom Cake Calculator
+    // ==========================================
+    function calculateCustomPrice() {
+        const sizeElem = document.getElementById('cakeSize');
+        const flavorElem = document.getElementById('cakeFlavor');
+        const fillingElem = document.getElementById('cakeFilling');
+
+        if (!sizeElem || !flavorElem || !fillingElem) return 0;
+
+        const sizePrice = parseFloat(sizeElem.value);
+        const flavorPrice = parseFloat(flavorElem.value);
+        const fillingPrice = parseFloat(fillingElem.value);
+        const total = sizePrice + flavorPrice + fillingPrice;
+
+        const customPriceElem = document.getElementById('customPrice');
+        const summaryDetailsElem = document.getElementById('summaryDetails');
+
+        if (customPriceElem) customPriceElem.innerText = `$${total.toFixed(2)}`;
+
+        const sizeText = sizeElem.options[sizeElem.selectedIndex].text.split('-')[0];
+        const flavorText = flavorElem.options[flavorElem.selectedIndex].text.split('(')[0];
+        const fillingText = fillingElem.options[fillingElem.selectedIndex].text.split('(')[0];
+
+        if (summaryDetailsElem) {
+            summaryDetailsElem.innerText = `${sizeText}, ${flavorText} Base, ${fillingText} Filling.`;
+        }
+        return total;
+    }
+
+    function addCustomToCart() {
+        const price = calculateCustomPrice();
+        const messageElem = document.getElementById('customMessage');
+        const message = messageElem ? messageElem.value : '';
+        const customItem = {
+            id: 'custom-' + Date.now(),
+            name: "Custom Cake" + (message ? ` ("${message}")` : ""),
+            price: price,
+            qty: 1
+        };
+        cart.push(customItem);
+        updateCart();
+        showToast("Added Custom Cake to cart!");
+        openCart();
+    }
+
+    // ==========================================
+    // 5. Cart Management
+    // ==========================================
+    function addToCart(id, btnElement) {
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            const cake = cakes.find(c => c.id === id);
+            cart.push({ ...cake, qty: 1 });
+        }
+        updateCart();
+        showToast("Item added to cart!");
+
+        // Button Animation
+        if (btnElement) {
+            const originalText = btnElement.textContent;
+            btnElement.disabled = true;
+            btnElement.style.transform = 'scale(0.92)';
+            btnElement.style.backgroundColor = '#2e7d32';
+            btnElement.textContent = 'Added! ✓';
+
+            setTimeout(() => {
+                btnElement.style.transform = 'scale(1)';
+                btnElement.style.backgroundColor = '';
+                btnElement.textContent = originalText;
+                btnElement.disabled = false;
+            }, 800);
+        }
+    }
+
+    function changeQty(index, delta) {
+        cart[index].qty += delta;
+        if (cart[index].qty <= 0) cart.splice(index, 1);
+        updateCart();
+    }
+
+    function updateCart() {
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        const cartCountElem = document.getElementById("cartCount");
+        if (cartCountElem) cartCountElem.innerText = totalItems;
+        
+        const cartItemsContainer = document.getElementById("cartItems");
+        if (cartItemsContainer) {
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+            } else {
+                cartItemsContainer.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div style="font-size:0.85rem; color:#666;">$${item.price.toFixed(2)} each</div>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const cartTotalElem = document.getElementById("cartTotal");
+        if (cartTotalElem) cartTotalElem.innerText = `$${total.toFixed(2)}`;
+    }
+
+    // ==========================================
+    // 6. Modal & Utility Handlers
+    // ==========================================
+    function showToast(msg) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<span>✨</span> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function toggleFaq(element) {
+        const answer = element.nextElementSibling;
+        const span = element.querySelector('span');
+        if (answer.style.display === "block") {
+            answer.style.display = "none";
+            span.innerText = "+";
+        } else {
+            answer.style.display = "block";
+            span.innerText = "-";
+        }
+    }
+
+    function openCart() { 
+        const modal = document.getElementById("cartModal");
+        if (modal) modal.style.display = "flex"; 
+    }
+    
+    function closeCart() { 
+        const modal = document.getElementById("cartModal");
+        if (modal) modal.style.display = "none"; 
+        backToCart(); 
+    }
+
+    function goToCheckout() {
+        if(cart.length === 0) return alert("Your cart is empty!");
+        document.getElementById("cartStepView")?.classList.remove("active");
+        document.getElementById("checkoutStepView")?.classList.add("active");
+    }
+
+    function backToCart() {
+        document.getElementById("checkoutStepView")?.classList.remove("active");
+        document.getElementById("cartStepView")?.classList.add("active");
+    }
+
+    function handleCheckoutSubmit(e) {
+        e.preventDefault();
+        alert("Thank you! Your order has been placed successfully.");
+        cart = [];
+        updateCart();
+        closeCart();
+    }
+
+    // ==========================================
+    // 7. Scroll Animation Observer
+    // ==========================================
+    function initScrollObserver() {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    // ==========================================
+    // 8. Safe DOM Initialization
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCakes(cakes);
+        calculateCustomPrice();
+        initScrollObserver();
+    });
+</script>
+</body>
+</html>
